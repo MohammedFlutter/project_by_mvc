@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../controller/notes_controller.dart';
 import '../model/noteMap.dart';
 import '../model/noteModel.dart';
 
@@ -16,22 +18,21 @@ class _AdderState extends State<Adder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Add'),
-        ),
-        body: Center(
-          child: Container(
-            margin: EdgeInsets.all(20),
-            child: Form(
-              key: formState,
-              child: Column(
-                children: [textFFTitle(), textFFDiscr(),
-                  btnSubmit()
-                ],
-              ),
+      appBar: AppBar(
+        title: Text('Add'),
+      ),
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.all(20),
+          child: Form(
+            key: formState,
+            child: Column(
+              children: [textFFTitle(), textFFDiscr(), btnSubmit(context)],
             ),
           ),
-        ));
+        ),
+      ),
+    );
     ;
   }
 
@@ -55,14 +56,16 @@ class _AdderState extends State<Adder> {
     );
   }
 
-  Widget btnSubmit() {
-    return ElevatedButton(onPressed: () {
-      var note =Note();
-      note.title='title';
-      note.discription="DIN Alternate";
-      Notes.note=Note();
-
-      Navigator.of(context).pop();
-    }, child: Text("Submit"));
+  Widget btnSubmit(BuildContext context) {
+    return Consumer<NotesController>(
+      builder: (context, controller, child) {
+        return ElevatedButton(
+            onPressed: () {
+              controller.inseret("title", "descr");
+              Navigator.of(context).pop();
+            },
+            child: Text("Submit"));
+      },
+    );
   }
 }

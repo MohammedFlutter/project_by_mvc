@@ -1,14 +1,21 @@
+import 'package:flutter/material.dart';
+
 import 'noteModel.dart';
 
-class Notes{
-  static final Map<String,Note> _notes=Map<String,Note>();
-  static int noNote=0;
-  static get getNotes=>_notes;
-  _Notes(){
+class Notes {
+  static final Map<int, Note> notes = Map<int, Note>();
+  static int noNote = 0;
+
+  static set setNote(Note note) {
+    notes[noNote++] = note;
   }
-  static set note(Note note){
-    _notes["${noNote++}"]=note;
+
+  static updateNote(int key , Note note){
+    notes.update(key, (value) => note)  ;
 
   }
-  static get getNote=>_notes["${noNote++}"];
+  static delete(int key){
+    notes.remove(key);
+  }
+
 }
