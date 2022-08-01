@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/notes_controller.dart';
-import '../model/noteMap.dart';
-import '../model/noteModel.dart';
 
 class Adder extends StatefulWidget {
   const Adder({Key? key}) : super(key: key);
@@ -14,6 +12,8 @@ class Adder extends StatefulWidget {
 
 class _AdderState extends State<Adder> {
   GlobalKey<FormState> formState = GlobalKey();
+  TextEditingController titleContr = TextEditingController();
+  TextEditingController descrContr = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +27,34 @@ class _AdderState extends State<Adder> {
           child: Form(
             key: formState,
             child: Column(
-              children: [textFFTitle(), textFFDiscr(), btnSubmit(context)],
+              children: [
+                textFFTitle(titleContr), textFFDescr(descrContr),
+                // btnSubmit(context),
+                Consumer<NotesController>(
+                  builder: (context, controller, child) {
+                    return ElevatedButton(
+                        onPressed: () {
+                          if (formState.currentState!.validate()) {
+                            controller.inseret(
+                                titleContr.text, descrContr.text);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: Text("Submit"));
+                  },
+                )
+              ],
             ),
           ),
         ),
       ),
     );
-    ;
+
   }
 
-  Widget textFFTitle() {
+  Widget textFFTitle(TextEditingController controller) {
     return TextFormField(
+      controller: controller,
       maxLines: 1,
       decoration: InputDecoration(
         hintText: "Title",
@@ -46,8 +63,9 @@ class _AdderState extends State<Adder> {
     );
   }
 
-  Widget textFFDiscr() {
+  Widget textFFDescr(TextEditingController controller) {
     return TextFormField(
+      controller: controller,
       maxLines: 1,
       decoration: InputDecoration(
         hintText: "Discreption",
@@ -61,10 +79,11 @@ class _AdderState extends State<Adder> {
       builder: (context, controller, child) {
         return ElevatedButton(
             onPressed: () {
-              controller.inseret("title", "descr");
+              print(titleContr.text);
+              controller.inseret(titleContr.text, descrContr.text);
               Navigator.of(context).pop();
             },
-            child: Text("Submit"));
+            child: Text("Add"));
       },
     );
   }

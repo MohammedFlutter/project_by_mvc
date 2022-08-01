@@ -1,21 +1,19 @@
-import 'package:flutter/material.dart';
 
 import 'noteModel.dart';
 
 class Notes {
-  static final Map<int, Note> notes = Map<int, Note>();
-  static int noNote = 0;
+  static final List< Note> notes = [];
 
   static set setNote(Note note) {
-    notes[noNote++] = note;
+    notes.add(note);
   }
 
-  static updateNote(int key , Note note){
-    notes.update(key, (value) => note)  ;
+  static updateNote(int index , Note note){
+    notes[index]=note;
 
   }
-  static delete(int key){
-    notes.remove(key);
+  static delete(int index){
+    notes.removeAt(index);
   }
 
 }
