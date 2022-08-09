@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/notes_controller.dart';
+import '../model/note.dart';
 
 class Adder extends StatefulWidget {
   const Adder({Key? key}) : super(key: key);
@@ -19,11 +20,12 @@ class _AdderState extends State<Adder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add'),
+        title: const Text('Add'),
       ),
       body: Center(
         child: Container(
-          margin: EdgeInsets.all(20),
+
+          margin: const EdgeInsets.all(20),
           child: Form(
             key: formState,
             child: Column(
@@ -35,12 +37,11 @@ class _AdderState extends State<Adder> {
                     return ElevatedButton(
                         onPressed: () {
                           if (formState.currentState!.validate()) {
-                            controller.inseret(
-                                titleContr.text, descrContr.text);
+                            controller.insert(Note(titleContr.text, descrContr.text));
                             Navigator.of(context).pop();
                           }
                         },
-                        child: Text("Submit"));
+                        child: const Text("Submit"));
                   },
                 )
               ],
@@ -56,7 +57,7 @@ class _AdderState extends State<Adder> {
     return TextFormField(
       controller: controller,
       maxLines: 1,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Title",
       ),
       validator: (value) => (value!.isEmpty) ? "Title is empty" : null,
@@ -67,24 +68,12 @@ class _AdderState extends State<Adder> {
     return TextFormField(
       controller: controller,
       maxLines: 1,
-      decoration: InputDecoration(
-        hintText: "Discreption",
+      decoration: const InputDecoration(
+        hintText: "Description",
       ),
       validator: (value) => (value!.isEmpty) ? "Title is empty" : null,
     );
   }
 
-  Widget btnSubmit(BuildContext context) {
-    return Consumer<NotesController>(
-      builder: (context, controller, child) {
-        return ElevatedButton(
-            onPressed: () {
-              print(titleContr.text);
-              controller.inseret(titleContr.text, descrContr.text);
-              Navigator.of(context).pop();
-            },
-            child: Text("Add"));
-      },
-    );
-  }
+
 }
