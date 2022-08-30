@@ -13,23 +13,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:floatButton(),
+      floatingActionButton: floatButton(),
       appBar: AppBar(
         title: const Text('Notes with mvc'),
       ),
       body: Container(
         color: Colors.amberAccent,
         child: Consumer<NotesController>(builder: (context, controller, child) {
-          return _lvContain(controller);
+          return _contain(controller);
         }),
       ),
     );
   }
-  Widget floatButton (){
+
+  Widget floatButton() {
     return FloatingActionButton(
       onPressed: () {
         Navigator.of(context).pushNamed("Add");
@@ -37,26 +37,25 @@ class _HomePageState extends State<HomePage> {
       child: const Icon(Icons.add),
     );
   }
-  Widget _lvContain(NotesController controller) {
-    // List notes = controller.notes;
 
+  Widget _contain(NotesController controller) {
     return FutureBuilder(
         future: controller.notes,
-        builder: (BuildContext context,AsyncSnapshot<List<Note>>  snapShot) {
-          if(!(snapShot.hasData)) {
+        builder: (BuildContext context, AsyncSnapshot<List<Note>> snapShot) {
+          //laud
+          if (!(snapShot.hasData)) {
             return const CircularProgressIndicator();
           }
 
-          if (snapShot.data!.isEmpty){
-            return const Center(
-              child: Text("you have 0 notes",
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold)),
-            );
+          if (snapShot.data!.isEmpty) {
+            return Center(
+                child: Text(
+              "you have 0 notes",
+              style: Theme.of(context).textTheme.titleLarge,
+            ));
           }
           return ListView.builder(
+            itemCount: snapShot.data!.length,
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(snapShot.data![index].title),
@@ -66,12 +65,12 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Updater(
-                          note: snapShot.data![index],
-                        )));
+                              note: snapShot.data![index],
+                            )));
                   },
                 ),
                 trailing: IconButton(
-                  icon:const Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: () {
                     controller.delete(snapShot.data![index]);
                   },
@@ -79,8 +78,29 @@ class _HomePageState extends State<HomePage> {
               );
             },
             // shrinkWrap: true,
-            itemCount: snapShot.data!.length,
           );
         });
   }
+//   Widget itemBuilder(BuildContext context,int index,AsyncSnapshot<List<Note>> snapShot){
+//
+//     return ListTile(
+//       title: Text(snapShot.data![index].title),
+//       subtitle: Text(snapShot.data![index].discription),
+//       leading: IconButton(
+//         icon: const Icon(Icons.update),
+//         onPressed: () {
+//           Navigator.of(context).push(MaterialPageRoute(
+//               builder: (context) => Updater(
+//                 note: snapShot.data![index],
+//               )));
+//         },
+//       ),
+//       trailing: IconButton(
+//         icon: const Icon(Icons.delete),
+//         onPressed: () {
+//           controller.delete(snapShot.data![index]);
+//         },
+//       ),
+//     );
+//   }
 }

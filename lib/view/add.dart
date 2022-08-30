@@ -29,8 +29,10 @@ class _AdderState extends State<Adder> {
           child: Form(
             key: formState,
             child: Column(
+              //
               children: [
                 textFFTitle(titleContr), textFFDescr(descrContr),
+                Spacer(),
                 // btnSubmit(context),
                 Consumer<NotesController>(
                   builder: (context, controller, child) {

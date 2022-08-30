@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       routes: {
-        "Home": (context) =>const HomePage(),
-        "Add": (context) =>const Adder(),
+        "Home": (context) => const HomePage(),
+        "Add": (context) => const Adder(),
         // "Update": (context)=> Updater(),
       },
       theme: ThemeData(
@@ -34,6 +34,12 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        textTheme: TextTheme(titleLarge: TextStyle(fontSize: 30)),
+        inputDecorationTheme:
+            InputDecorationTheme(border: OutlineInputBorder(),
+            filled: true,
+            fillColor: Colors.amber,
+            ),
       ),
       home: const HomePage(),
     );
